@@ -1,0 +1,58 @@
+import mysql from 'mysql';
+
+// This provides an interface to getOne, getAll and Run a SQL command
+export default class AppDAO {
+  public db: mysql.Connection;
+
+  constructor() {
+    this.db = mysql.createConnection({
+      host: process.env.dbhost,
+      user: process.env.dbuser,
+      password: process.env.dbpass,
+      database: process.env.dbdatabase,
+    });
+  }
+
+  public kill() {
+    this.db.destroy();
+  }
+
+  // Will execute a query for Update/Insert/Delete
+  public run(sql: string, params: any[]) {
+    return new Promise<{ id: number }>((resolve, reject) => {
+      this.db.query(sql, params, function(err, res) {
+        if (err) {
+          reject(err);
+        } else {
+          resolve({ id: res.insertId });
+        }
+      });
+    });
+  }
+
+  // Will execute a query in order to get 1 entry from a DB
+  public getOne<T>(sql: string, params: any = []) {
+    return new Promise<T>((resolve, reject) => {
+      this.db.query(sql, params, (err: mysql.MysqlError | null, row: T) => {
+        if (err) {
+          reject(err);
+        } else {
+          resolve(row);
+        }
+      });
+    });
+  }
+
+  // Will execute a query to get multiple entries from a DB
+  public getAll<T>(sql: string, params: any = []) {
+    return new Promise<T[]>((resolve, reject) => {
+      this.db.query(sql, params, (err: mysql.MysqlError | null, rows: T[]) => {
+        if (err) {
+          reject(err);
+        } else {
+          resolve(rows);
+        }
+      });
+    });
+  }
+}

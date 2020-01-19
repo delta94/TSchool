@@ -1,0 +1,40 @@
+{
+  "name": "tschool",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "lint": "./node_modules/.bin/eslint --ignore-path .gitignore .",
+    "start": "ts-node src/index.ts",
+    "test": "jest --passWithNoTests",
+    "test:watch": "jest --watch",
+    "prepush": "npm run lint && npm test",
+    "precommit": "npm run lint && npm test",
+    "clean": "rimraf node_modules ./bin"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@types/dotenv": "^8.2.0",
+    "@types/express": "^4.17.2",
+    "@types/mysql": "^2.15.8",
+    "@types/node": "^13.1.4",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "mysql": "^2.17.1"
+  },
+  "devDependencies": {
+    "@types/jest": "^24.0.25",
+    "@typescript-eslint/eslint-plugin": "^2.13.0",
+    "@typescript-eslint/parser": "^2.13.0",
+    "eslint": "^6.8.0",
+    "eslint-config-prettier": "^6.9.0",
+    "eslint-plugin-prettier": "^3.1.2",
+    "husky": "^3.1.0",
+    "jest": "^24.9.0",
+    "prettier": "^1.19.1",
+    "ts-jest": "^24.2.0",
+    "typescript": "^3.7.4",
+    "rimraf": "^3.0.0"
+  }
+}
