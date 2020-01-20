@@ -24,6 +24,17 @@ npm run migrate:make school
 
 Then populate the file in migrations/migrationname.ts
 
+### Seeds
+
+You can also write some mocks files that will seed the database tables.
+
+This allows us to share some mock data easily
+
+```
+npm run seed:make
+npm run seed:run
+```
+
 ---
 
 Implemented Features

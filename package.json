@@ -14,7 +14,8 @@
     "migrate:up": "knex migrate:up",
     "migrate:down": "knex migrate:down",
     "migrate:make": "knex migrate:make -x ts $1",
-    "seed:make": "knex seed:make -x ts $1"
+    "seed:make": "knex seed:make -x ts $1",
+    "seed:run": "knex seed:run"
   },
   "author": "",
   "license": "ISC",
