@@ -13,7 +13,8 @@
     "clean": "rimraf node_modules ./bin",
     "migrate:up": "knex migrate:up",
     "migrate:down": "knex migrate:down",
-    "migrate:make": "knex migrate:make -x ts $1"
+    "migrate:make": "knex migrate:make -x ts $1",
+    "seed:make": "knex seed:make -x ts $1"
   },
   "author": "",
   "license": "ISC",

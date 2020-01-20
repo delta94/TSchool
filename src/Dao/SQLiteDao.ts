@@ -1,5 +1,7 @@
 import { Database } from 'sqlite3';
 import { AbstractDao } from './AbstractDao';
+import dotenv from 'dotenv';
+dotenv.config();
 
 export default class SqliteDAO implements AbstractDao {
   public db: Database;
