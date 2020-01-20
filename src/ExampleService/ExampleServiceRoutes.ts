@@ -1,5 +1,6 @@
 import express from 'express';
 import { ExampleService } from './ExampleService';
+
 const exampleRoutes = express.Router();
 const exampleService = new ExampleService();
 
