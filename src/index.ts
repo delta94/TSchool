@@ -11,6 +11,7 @@ declare global {
       dbUser: string;
       dbPass: string;
       dbDatabase: string;
+      dbSqliteFile: string;
     }
   }
 }

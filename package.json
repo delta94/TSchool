@@ -10,7 +10,10 @@
     "test:watch": "jest --watch",
     "prepush": "npm run lint && npm test",
     "precommit": "npm run lint && npm test",
-    "clean": "rimraf node_modules ./bin"
+    "clean": "rimraf node_modules ./bin",
+    "migrate:up": "knex migrate:up",
+    "migrate:down": "knex migrate:down",
+    "migrate:make": "knex migrate:make -x ts $1"
   },
   "author": "",
   "license": "ISC",
@@ -22,6 +25,7 @@
     "@types/sqlite3": "^3.1.6",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
+    "knex": "^0.20.8",
     "mysql": "^2.17.1",
     "sqlite3": "^4.1.1"
   },
@@ -35,8 +39,9 @@
     "husky": "^3.1.0",
     "jest": "^24.9.0",
     "prettier": "^1.19.1",
+    "rimraf": "^3.0.0",
     "ts-jest": "^24.2.0",
-    "typescript": "^3.7.4",
-    "rimraf": "^3.0.0"
+    "ts-node": "^8.6.2",
+    "typescript": "^3.7.4"
   }
 }

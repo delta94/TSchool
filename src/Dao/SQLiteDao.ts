@@ -5,7 +5,7 @@ export default class SqliteDAO implements AbstractDao {
   public db: Database;
 
   constructor() {
-    this.db = new Database('./sqlitedb/schooldb', err => {
+    this.db = new Database(process.env.dbSqliteFile, err => {
       if (err) {
         console.log('Couldnt connect to Database');
       } else {
