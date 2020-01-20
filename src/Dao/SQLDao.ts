@@ -1,7 +1,8 @@
 import mysql from 'mysql';
+import { AbstractDao } from './AbstractDao';
 
 // This provides an interface to getOne, getAll and Run a SQL command
-export default class AppDAO {
+export default class AppDAO implements AbstractDao {
   public db: mysql.Connection;
 
   constructor() {
@@ -11,6 +12,11 @@ export default class AppDAO {
       password: process.env.dbpass,
       database: process.env.dbdatabase,
     });
+    try {
+      this.db.connect();
+    } catch (err) {
+      console.log(err);
+    }
   }
 
   public kill() {
