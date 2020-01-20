@@ -10,7 +10,8 @@ module.exports = {
     sourceType: 'module', // Allows for the use of imports
   },
   rules: {
-    'prefer-destructuring': ['error', { object: true, array: false }],
+    "no-unused-vars": ["error", { "vars": "all", "args": "after-used", "ignoreRestSiblings": false }],
+    "prefer-destructuring": ["error", {"object": true, "array": false}],
     "@typescript-eslint/camelcase": ["error", { "properties": "never" } ],
     "@typescript-eslint/explicit-function-return-type": "off",
     "@typescript-eslint/no-explicit-any": "off"
