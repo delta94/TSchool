@@ -1,6 +1,6 @@
 # TSchool
 
-> TSchool is a School Management System written in TypeScript
+> TSchool is a Event Driven Microservice based School Management System written in TypeScript
 
 ## Getting Started
 
