@@ -3,7 +3,7 @@ import { AbstractDao } from './AbstractDao';
 import dotenv from 'dotenv';
 dotenv.config();
 
-export default class SqliteDAO implements AbstractDao {
+class SqliteDAO implements AbstractDao {
   public db: Database;
 
   constructor() {
@@ -60,3 +60,5 @@ export default class SqliteDAO implements AbstractDao {
     });
   }
 }
+
+export default new SqliteDAO();
