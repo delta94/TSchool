@@ -5,7 +5,7 @@ import SqliteDAO from '../Dao/SQLiteDao';
 // Here we can perform whatever business logic we want on the call we are using
 // This is coupled to an Repository of the Service, read Repository for more info
 export class ExampleService {
-  private repo = new ExampleRespository(new SqliteDAO());
+  private repo = new ExampleRespository(SqliteDAO);
 
   public doSomethingCool() {
     return 'This is something pretty cool...';

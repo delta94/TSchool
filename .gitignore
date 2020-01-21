@@ -4,4 +4,4 @@ node_modules
 /bin
 /coverage
 /src/sample
-/database/schools.sqlite3
+school.sqlite3

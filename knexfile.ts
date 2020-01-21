@@ -1,8 +1,11 @@
+import dotenv from 'dotenv';
+dotenv.config();
+
 module.exports = {
   development: {
     client: 'sqlite3',
     connection: {
-      filename: 'database/schools.sqlite3',
+      filename: process.env.dbSqliteFile,
     },
     useNullAsDefault: true,
     migrations: {
