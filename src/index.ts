@@ -1,6 +1,7 @@
 import express from 'express';
 import dotenv from 'dotenv';
-import exampleRoutes from './ExampleService/ExampleServiceRoutes';
+import exampleServiceRoutes from './ExampleService/ExampleServiceRoutes';
+import exampleService2Routes from './ExampleService2/ExampleServiceRoutes2';
 
 declare global {
   // eslint-disable-next-line @typescript-eslint/no-namespace
@@ -21,7 +22,8 @@ dotenv.config();
 const app = express();
 
 // Attach our routes
-app.use(exampleRoutes);
+app.use(exampleServiceRoutes);
+app.use(exampleService2Routes);
 
 // Server listen on port from env vars
 app.listen(process.env.expressPort, () => {

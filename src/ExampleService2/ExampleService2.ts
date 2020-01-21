@@ -1,4 +1,4 @@
-import ExampleRespository from './ExampleRepository';
+import ExampleRespository2 from './ExampleRepository2';
 import SqliteDAO from '../Dao/SQLiteDao';
 import { EventListenerBus } from '../EventBus/EventBusListener';
 import EventBus from '../EventBus/EventBus';
@@ -6,15 +6,17 @@ import EventBus from '../EventBus/EventBus';
 // The Service class is responsible for orchestration calls to a specific Entity through a Service Interface
 // Here we can perform whatever business logic we want on the call we are using
 // This is coupled to an Repository of the Service, read Repository for more info
-export class ExampleService {
-  private repo = new ExampleRespository(SqliteDAO);
+export class ExampleService2 {
+  private repo = new ExampleRespository2(SqliteDAO);
   private eventBusListener = new EventListenerBus<ExampleServiceEventMap>(EventBus);
 
-  public doSomethingCool() {
-    this.eventBusListener.publish('example.created', {
-      example_id: 5,
+  constructor() {
+    this.eventBusListener.subscribe('example.created', example => {
+      console.log(example.example_id);
     });
   }
+
+  public doSomethingCool() {}
 
   public async getById(id: number) {
     // Here we get some entry by ID
