@@ -3,9 +3,16 @@ dotenv.config();
 
 module.exports = {
   development: {
-    client: 'sqlite3',
+    // client: 'sqlite3',
+    // connection: {
+    //   filename: process.env.dbSqliteFile,
+    // },
+    client: 'mysql',
     connection: {
-      filename: process.env.dbSqliteFile,
+      host: process.env.dbHost,
+      user: process.env.dbUser,
+      password: process.env.dbPass,
+      database: process.env.dbDatabase,
     },
     useNullAsDefault: true,
     migrations: {

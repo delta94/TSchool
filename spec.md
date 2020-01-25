@@ -17,16 +17,16 @@ getSchool();
 
 ```ts
 @protected by Admin Status
-createAdmin(schoolId: number, name: string, dateOfBirth: number, address: string) : UserId;
+createAdmin(schoolId: number, username: string, password: string, name: string, dateOfBirth: number, address: string) : UserId;
 deleteAdmin(userId: number) : boolean;
 
-createFaculty(schoolId: number, name: string, dateOfBirth: number, address: string) : UserId;
+createFaculty(schoolId: number, username: string, password: string, name: string, dateOfBirth: number, address: string) : UserId;
 deleteFaculty(userId: number) : boolean;
 
-createStudent(schoolId: number, name: string, dateOfBirth: number, address: string) : UserId;
+createStudent(schoolId: number, username: string, password: string, name: string, dateOfBirth: number, address: string) : UserId;
 deleteStudent(userId: number) : boolean;
 
-createParent(schoolId: number, name: string, dateOfBirth: number, address: string, studentId: number) : UserId;
+createParent(schoolId: number, username: string, password: string, name: string, dateOfBirth: number, address: string, studentId: number) : UserId;
 deleteParent(userId: number) : boolean;
 
 @protected by Admin Status or Owning User
