@@ -7,6 +7,8 @@ export async function up(knex: Knex): Promise<any> {
       .unsigned()
       .primary();
     table.string('school_id');
+    table.string('username');
+    table.string('password');
     table.string('type');
     table.string('first_name');
     table.string('last_name');

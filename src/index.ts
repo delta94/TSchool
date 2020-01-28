@@ -3,6 +3,8 @@ import dotenv from 'dotenv';
 import exampleRoutes from './ExampleService/ExampleServiceRoutes';
 import userRoutes from './UserService/UserServiceController';
 import bodyParser from 'body-parser';
+import passport from 'passport';
+import session from 'express-session';
 
 declare global {
   // eslint-disable-next-line @typescript-eslint/no-namespace
@@ -21,7 +23,15 @@ declare global {
 // Setup so we can use Env Vars (From .env)
 dotenv.config();
 const app = express();
-app.use(bodyParser());
+
+// Setup Body Parser
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+
+// Setup Passport
+app.use(session({ secret: 'keyboard cat', resave: true, saveUninitialized: true }));
+app.use(passport.initialize());
+app.use(passport.session());
 
 // Attach our routes
 app.use(exampleRoutes);

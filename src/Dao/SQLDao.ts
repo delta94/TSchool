@@ -39,11 +39,11 @@ class SqlDAO implements AbstractDao {
   // Will execute a query in order to get 1 entry from a DB
   public getOne<T>(sql: string, params: any = []) {
     return new Promise<T>((resolve, reject) => {
-      this.db.query(sql, params, (err: mysql.MysqlError | null, row: T) => {
+      this.db.query(sql, params, (err: mysql.MysqlError | null, row: T[]) => {
         if (err) {
           reject(err);
         } else {
-          resolve(row);
+          resolve(row[0]);
         }
       });
     });
