@@ -11,9 +11,8 @@ module.exports = {
   },
   rules: {
     "no-unused-vars": ["error", { "vars": "all", "args": "after-used", "ignoreRestSiblings": false }],
-    "@typescript-eslint/camelcase": "off",
     "prefer-destructuring": ["error", {"object": true, "array": false}],
-    "@typescript-eslint/camelcase": ["error", { "properties": "never" } ],
+    "@typescript-eslint/camelcase": "off",
     "@typescript-eslint/explicit-function-return-type": "off",
     "@typescript-eslint/no-explicit-any": "off"
   },
