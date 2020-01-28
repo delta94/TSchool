@@ -2,7 +2,7 @@ import express from 'express';
 import UserService from './UserService';
 import { CreateUserDTO } from './controller-validation-types';
 import { p as passport } from '../middleware/auth';
-import { isSignedIn } from '../middleware/isStudent';
+import { isSignedIn } from '../middleware/isAuthed';
 
 const userRoutes = express.Router();
 const userService = new UserService();
