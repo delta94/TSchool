@@ -7,9 +7,14 @@ export async function up(knex: Knex): Promise<any> {
       .unsigned()
       .primary();
     table.string('school_id');
-    table.string('name');
-    table.string('address');
+    table.string('type');
+    table.string('first_name');
+    table.string('last_name');
     table.string('date_of_birth');
+    table.string('address');
+    table.string('city');
+    table.string('country');
+    table.string('postal_code');
   });
 }
 

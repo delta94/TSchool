@@ -6,7 +6,7 @@ import * as Knex from 'knex';
 // Can use this along with seeds (in seeds folder) to share data
 
 export async function up(knex: Knex): Promise<any> {
-  return knex.schema.createTable('school', table => {
+  return knex.schema.createTable('schools', table => {
     table
       .increments('id')
       .unsigned()
@@ -17,5 +17,5 @@ export async function up(knex: Knex): Promise<any> {
 }
 
 export async function down(knex: Knex): Promise<any> {
-  return knex.schema.dropTable('school');
+  return knex.schema.dropTable('schools');
 }
