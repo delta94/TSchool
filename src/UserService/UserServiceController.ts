@@ -1,11 +1,13 @@
 import express from 'express';
 import UserService from './UserService';
-import { CreateUserDTO } from './controller-validation-types';
-import { p as passport } from '../middleware/auth';
+import { CreateUserDTO, CreateStudentDTO } from './controller-validation-types';
+import { p as passport } from '../middleware/passport-local';
 import { isSignedIn } from '../middleware/isAuthed';
+import UserRepository from './UserRepository';
+import SQLDao from '../Dao/SQLDao';
 
 const userRoutes = express.Router();
-const userService = new UserService();
+const userService = new UserService(new UserRepository(SQLDao));
 
 // WIP - This will return the users info if hes logged in
 userRoutes.get('/student', isSignedIn, async (req, res) => {
@@ -21,10 +23,7 @@ userRoutes.post('/student/login', passport.authenticate('local'), async (req, re
 userRoutes.post('/student/create', async (req, res) => {
   try {
     await CreateUserDTO.validateAsync(req.body);
-    const createUserDTO = {
-      ...req.body,
-      type: 'student',
-    };
+    const createUserDTO: CreateStudentDTO = req.body;
     res.send(await userService.createStudent(createUserDTO));
   } catch (err) {
     res.status(400).send(err);

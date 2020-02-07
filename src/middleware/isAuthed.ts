@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import { PassportUser } from './auth';
+import { PassportUser } from './passport-local';
 
 export const isStudent = (req: Request, res: Response, next: NextFunction) => {
   const user = req.user as PassportUser;

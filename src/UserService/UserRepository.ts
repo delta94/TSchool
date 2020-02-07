@@ -2,7 +2,7 @@ import { AbstractDao } from '../Dao/AbstractDao';
 import { CreateStudentDTO } from './controller-validation-types';
 import bycrypt from 'bcrypt-nodejs';
 
-export default class ExampleRepository {
+export default class UserRepository {
   private dao: AbstractDao;
 
   constructor(dao: AbstractDao) {

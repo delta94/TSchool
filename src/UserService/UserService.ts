@@ -1,13 +1,17 @@
 import UserRepository from './UserRepository';
-import SqlDAO from '../Dao/SQLDao';
 import { CreateStudentDTO } from './controller-validation-types';
 
 export default class UserService {
-  private repo = new UserRepository(SqlDAO);
+  private repo: UserRepository;
+
+  constructor(repo: UserRepository) {
+    this.repo = repo;
+  }
 
   public async createStudent(createStudentDTO: CreateStudentDTO) {
+    // business logic
     const studentId = await this.repo.createStudent(createStudentDTO);
-    return `Student Created with Id # ${studentId}`;
+    return studentId;
   }
 
   kill() {

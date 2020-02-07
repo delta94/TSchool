@@ -1,5 +1,7 @@
 import mysql from 'mysql';
 import { AbstractDao } from './AbstractDao';
+import dotenv from 'dotenv';
+dotenv.config();
 
 // This provides an interface to getOne, getAll and Run a SQL command
 class SqlDAO implements AbstractDao {
@@ -12,11 +14,7 @@ class SqlDAO implements AbstractDao {
       password: process.env.dbPass,
       database: process.env.dbDatabase,
     });
-    try {
-      this.db.connect();
-    } catch (err) {
-      console.log(err);
-    }
+    this.db.connect();
   }
 
   public kill() {

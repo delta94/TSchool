@@ -1,11 +1,12 @@
 import ExampleRespository from './ExampleRepository';
-import SqliteDAO from '../Dao/SQLiteDao';
+import SQLDao from '../Dao/SQLDao';
 
 // The Service class is responsible for orchestration calls to a specific Entity through a Service Interface
 // Here we can perform whatever business logic we want on the call we are using
 // This is coupled to an Repository of the Service, read Repository for more info
+
 export class ExampleService {
-  private repo = new ExampleRespository(SqliteDAO);
+  private repo = new ExampleRespository(SQLDao);
 
   public doSomethingCool() {
     return 'This is something pretty cool...';
