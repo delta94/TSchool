@@ -1,5 +1,5 @@
 import UserRepository from './UserRepository';
-import { CreateStudentDTO } from './controller-validation-types';
+import { CreateUserDTO } from './controller-validation-types';
 
 export default class UserService {
   private repo: UserRepository;
@@ -8,9 +8,8 @@ export default class UserService {
     this.repo = repo;
   }
 
-  public async createStudent(createStudentDTO: CreateStudentDTO) {
-    // business logic
-    const studentId = await this.repo.createStudent(createStudentDTO);
+  public async createUser(createUserDTO: CreateUserDTO) {
+    const studentId = await this.repo.createUser(createUserDTO);
     return studentId;
   }
 

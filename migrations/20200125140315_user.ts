@@ -9,7 +9,7 @@ export async function up(knex: Knex): Promise<any> {
     table.string('school_id');
     table.string('username').unique();
     table.string('password');
-    table.string('type');
+    table.enum('type', ['admin', 'faculty', 'teacher', 'student']);
     table.string('first_name');
     table.string('last_name');
     table.string('date_of_birth');

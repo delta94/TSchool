@@ -1,5 +1,5 @@
 import { AbstractDao } from '../Dao/AbstractDao';
-import { CreateStudentDTO } from './controller-validation-types';
+import { CreateUserDTO } from './controller-validation-types';
 import bycrypt from 'bcrypt-nodejs';
 
 export default class UserRepository {
@@ -9,8 +9,8 @@ export default class UserRepository {
     this.dao = dao;
   }
 
-  public async createStudent(createStudentDTO: CreateStudentDTO) {
-    const { schoolId, username, password, type, firstName, lastName, address, city, country, postal_code, dob } = createStudentDTO;
+  public async createUser(createUserDTO: CreateUserDTO) {
+    const { schoolId, username, password, type, firstName, lastName, address, city, country, postal_code, dob } = createUserDTO;
     try {
       const sql = `INSERT INTO users (school_id, username, password, type, first_name, last_name, address, city, country, postal_code, date_of_birth) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
       const params = [schoolId, username, bycrypt.hashSync(password), type, firstName, lastName, address, city, country, postal_code, dob];
