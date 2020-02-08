@@ -15,6 +15,8 @@ declare global {
       dbPass: string;
       dbDatabase: string;
       dbSqliteFile: string;
+      jwtSecret: string;
+      sessionSecret: string;
     }
   }
 }
@@ -28,7 +30,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 // Setup Passport
-app.use(session({ secret: 'keyboard cat', resave: true, saveUninitialized: true }));
+app.use(session({ secret: process.env.sessionSecret, resave: true, saveUninitialized: true }));
 app.use(passport.initialize());
 app.use(passport.session());
 

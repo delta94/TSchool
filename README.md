@@ -14,6 +14,8 @@ You can up/down and create migrations easily using the npm scripts, they will al
 npm run migrate:up
 npm run migrate:down
 npm run migrate:make migration_name
+npm run migrate:latest
+npm run migrate:rollback
 ```
 
 Whenever working on a new feature that requires a new Table, think about your model and create it.
