@@ -3,10 +3,7 @@ import { EventHandler } from './types';
 export class EventBus {
   private eventHandlers: EventHandler[] = [];
 
-  public subscribe<K extends keyof Record<string, any>>(
-    eventName: K,
-    callback: (params: Record<string, any>[K], uuid: string) => void,
-  ) {
+  public subscribe<K extends keyof Record<string, any>>(eventName: K, callback: (params: Record<string, any>[K], uuid: string) => void) {
     this.eventHandlers.push({ eventName: eventName.toString(), callback });
   }
 
