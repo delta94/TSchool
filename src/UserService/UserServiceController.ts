@@ -3,11 +3,10 @@ import UserService from './UserService';
 import { CreateUserValidator, CreateUserDTO } from './controller-validation-types';
 import { p as passport } from '../middleware/passport-local';
 import UserRepository from './UserRepository';
-import SQLDao from '../Dao/SQLDao';
-import { isAdmin } from '../middleware/isAuthed';
+import { SqlDAO } from '../Dao/SQLDao';
 
 const userRoutes = express.Router();
-const userService = new UserService(new UserRepository(SQLDao));
+const userService = new UserService(new UserRepository(new SqlDAO()));
 
 // Route to login
 userRoutes.post('/user/login', passport.authenticate('local'), async (req, res) => {

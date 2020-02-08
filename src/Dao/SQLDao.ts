@@ -4,7 +4,7 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 // This provides an interface to getOne, getAll and Run a SQL command
-class SqlDAO implements AbstractDao {
+export class SqlDAO implements AbstractDao {
   public db: mysql.Connection;
 
   constructor() {
@@ -60,5 +60,3 @@ class SqlDAO implements AbstractDao {
     });
   }
 }
-
-export default new SqlDAO();
