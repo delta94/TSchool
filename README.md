@@ -2,6 +2,8 @@
 
 > TSchool is a Event Driven Microservice based School Management System written in TypeScript
 
+The current approach has all services in one monorepo, and is not Microservice based. However all Services will be developped independently and non coupled to other services, at any point it is possible to migrate this to a Microservice architecture.
+
 ## Getting Started
 
 Follow these instructions to get the service up and running
