@@ -1,6 +1,5 @@
 import express from 'express';
 import dotenv from 'dotenv';
-import exampleRoutes from './ExampleService/ExampleServiceRoutes';
 import userRoutes from './UserService/UserServiceController';
 import bodyParser from 'body-parser';
 import passport from 'passport';
@@ -34,7 +33,6 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 // Attach our routes
-app.use(exampleRoutes);
 app.use(userRoutes);
 
 // Server listen on port from env vars
