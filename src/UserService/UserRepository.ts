@@ -24,7 +24,7 @@ export default class UserRepository {
   public async deleteUser(deleteUserDTO: DeleteUserDTO) {
     const { id } = deleteUserDTO;
     try {
-      const sql = `UPDATE users set active = 0 WHERE id = ?`;
+      const sql = `UPDATE users SET active = 0 WHERE id = ?`;
       const params = [id];
       const result = await this.dao.run(sql, params);
       return result.id;

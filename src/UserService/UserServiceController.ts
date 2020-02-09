@@ -1,11 +1,11 @@
 import express from 'express';
 import UserService from './UserService';
-import { CreateUserValidator, CreateUserDTO, DeleteUserValidator, DeleteUserDTO } from './controller-validation-types';
+import { CreateUserValidator, CreateUserDTO, DeleteUserValidator, DeleteUserDTO, UpdateUserValidator, UpdateUserDTO } from './controller-validation-types';
 import { p as passport } from '../middleware/passport-local';
 import UserRepository from './UserRepository';
 import { SqlDAO } from '../Dao/SQLDao';
 import jwt from 'jsonwebtoken';
-import { isAdmin } from '../middleware/isAuthed'
+import { isAdmin } from '../middleware/isAuthed';
 
 const userRoutes = express.Router();
 const userService = new UserService(new UserRepository(new SqlDAO()));
@@ -21,7 +21,7 @@ userRoutes.post('/user/login', passport.authenticate('local'), async (req, res) 
   res.status(200).send(jwtToken);
 });
 
-// Route to Create a user
+// Route to Create a User
 userRoutes.post('/user', async (req, res) => {
   console.log('creating user');
   try {
@@ -40,6 +40,19 @@ userRoutes.delete('/user', isAdmin, async (req, res) => {
     await DeleteUserValidator.validateAsync(req.body);
     const deleteUserDTO: DeleteUserDTO = req.body;
     await userService.deleteUser(deleteUserDTO);
+    res.status(200).send(true);
+  } catch (err) {
+    res.status(400).send(err.toString());
+  }
+});
+
+// Route to Update a User
+userRoutes.put('/user', isAdmin, async (req, res) => {
+  try {
+    await UpdateUserValidator.validateAsync(req.body);
+    const updateUserDTO: UpdateUserDTO = req.body;
+    const test = await userService.updateUser(updateUserDTO);
+    console.log(test.toString());
     res.status(200).send(true);
   } catch (err) {
     res.status(400).send(err.toString());
