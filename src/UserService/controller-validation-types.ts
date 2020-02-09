@@ -34,3 +34,11 @@ export interface CreateUserDTO {
   dob: Date;
   type: UserType;
 }
+
+export const DeleteUserValidator = Joi.object({
+  id: Joi.number().required(),
+});
+
+export interface DeleteUserDTO {
+  id: number;
+}

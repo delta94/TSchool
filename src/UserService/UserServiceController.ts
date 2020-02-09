@@ -1,10 +1,11 @@
 import express from 'express';
 import UserService from './UserService';
-import { CreateUserValidator, CreateUserDTO } from './controller-validation-types';
+import { CreateUserValidator, CreateUserDTO, DeleteUserValidator, DeleteUserDTO } from './controller-validation-types';
 import { p as passport } from '../middleware/passport-local';
 import UserRepository from './UserRepository';
 import { SqlDAO } from '../Dao/SQLDao';
 import jwt from 'jsonwebtoken';
+import { isAdmin } from '../middleware/isAuthed'
 
 const userRoutes = express.Router();
 const userService = new UserService(new UserRepository(new SqlDAO()));
@@ -22,13 +23,26 @@ userRoutes.post('/user/login', passport.authenticate('local'), async (req, res) 
 
 // Route to Create a user
 userRoutes.post('/user', async (req, res) => {
+  console.log('creating user');
   try {
     await CreateUserValidator.validateAsync(req.body);
     const createUserDTO: CreateUserDTO = req.body;
     const userId = await userService.createUser(createUserDTO);
     res.status(200).send(userId.toString());
   } catch (err) {
-    res.status(400).send(err);
+    res.status(400).send(err.toString());
+  }
+});
+
+// Route to Delete a User
+userRoutes.delete('/user', isAdmin, async (req, res) => {
+  try {
+    await DeleteUserValidator.validateAsync(req.body);
+    const deleteUserDTO: DeleteUserDTO = req.body;
+    await userService.deleteUser(deleteUserDTO);
+    res.status(200).send(true);
+  } catch (err) {
+    res.status(400).send(err.toString());
   }
 });
 

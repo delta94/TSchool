@@ -16,7 +16,7 @@ p.use(
     },
     async (username: string, password: string, done: Function) => {
       try {
-        const validUser = await dao.getOne<PassportUser>('select * from users where username = ?', [username]);
+        const validUser = await dao.getOne<PassportUser>('select * from users where username = ? AND active = 1', [username]);
         if (bycrypt.compareSync(password, validUser.password)) {
           done(null, { id: validUser.id, username: validUser.username, type: validUser.type });
         } else {
@@ -62,5 +62,5 @@ export interface PassportUser {
   id: number;
   username: string;
   password: string;
-  type: 'Admin' | 'Faculty' | 'Student';
+  type: 'admin' | 'faculty' | 'student';
 }
