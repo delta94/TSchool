@@ -3,7 +3,7 @@ import { PassportUser } from './passport-local';
 
 export const isStudent = (req: Request, res: Response, next: NextFunction) => {
   const user = req.user as PassportUser;
-  if (user.type === 'Student') {
+  if (user.type === 'student') {
     return next();
   }
   res.status(401).send('Unauthorized Route');
@@ -11,7 +11,7 @@ export const isStudent = (req: Request, res: Response, next: NextFunction) => {
 
 export const isFaculty = (req: Request, res: Response, next: NextFunction) => {
   const user = req.user as PassportUser;
-  if (user.type === 'Faculty') {
+  if (user.type === 'faculty') {
     return next();
   }
   res.status(401).send('Unauthorized Route');
@@ -19,7 +19,7 @@ export const isFaculty = (req: Request, res: Response, next: NextFunction) => {
 
 export const isAdmin = (req: Request, res: Response, next: NextFunction) => {
   const user = req.user as PassportUser;
-  if (user.type === 'Admin') {
+  if (user.type === 'admin') {
     return next();
   }
   res.status(401).send('Unauthorized Route');

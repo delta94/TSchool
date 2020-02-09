@@ -17,7 +17,7 @@ export async function up(knex: Knex): Promise<any> {
     table.string('city');
     table.string('country');
     table.string('postal_code');
-    table.boolean('active');
+    table.integer('active');
   });
 }
 

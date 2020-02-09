@@ -23,13 +23,14 @@ userRoutes.post('/user/login', passport.authenticate('local'), async (req, res) 
 
 // Route to Create a user
 userRoutes.post('/user', async (req, res) => {
+  console.log('creating user');
   try {
     await CreateUserValidator.validateAsync(req.body);
     const createUserDTO: CreateUserDTO = req.body;
     const userId = await userService.createUser(createUserDTO);
     res.status(200).send(userId.toString());
   } catch (err) {
-    res.status(400).send(err);
+    res.status(400).send(err.toString());
   }
 });
 
@@ -41,7 +42,7 @@ userRoutes.delete('/user', isAdmin, async (req, res) => {
     await userService.deleteUser(deleteUserDTO);
     res.status(200).send(true);
   } catch (err) {
-    res.status(400).send(err);
+    res.status(400).send(err.toString());
   }
 });
 
