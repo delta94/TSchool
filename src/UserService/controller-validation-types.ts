@@ -53,7 +53,6 @@ export interface DeleteUserDTO {
 }
 
 export const UpdateUserValidator = Joi.object({
-  id: Joi.number().required(),
   schoolId: Joi.number().optional(),
   password: Joi.string().optional(),
   firstName: Joi.string().optional(),
@@ -64,10 +63,10 @@ export const UpdateUserValidator = Joi.object({
   postal_code: Joi.string().optional(),
   dob: Joi.date().optional(),
   type: Joi.string().valid('faculty', 'teacher'),
+  id: Joi.number().required(),
 });
 
 export interface UpdateUserDTO {
-  id: number;
   schoolId?: number;
   password?: string;
   firstName?: string;
@@ -78,4 +77,5 @@ export interface UpdateUserDTO {
   postal_code?: string;
   dob?: Date;
   type?: UserStaffType;
+  id: number;
 }

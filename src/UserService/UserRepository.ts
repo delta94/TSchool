@@ -1,5 +1,5 @@
 import { AbstractDao } from '../Dao/AbstractDao';
-import { CreateUserDTO, DeleteUserDTO } from './controller-validation-types';
+import { CreateUserDTO, DeleteUserDTO, UpdateUserDTO } from './controller-validation-types';
 import bycrypt from 'bcrypt-nodejs';
 
 export default class UserRepository {
@@ -26,6 +26,19 @@ export default class UserRepository {
     try {
       const sql = `UPDATE users SET active = 0 WHERE id = ?`;
       const params = [id];
+      const result = await this.dao.run(sql, params);
+      return result.id;
+    } catch (err) {
+      throw new Error(err);
+    }
+  }
+
+  public async updateUser(updateUserDTO: Array<string | number>, query: string) {
+    //const { id } = updateUserDTO;
+    try {
+      const sql = query;
+      const params = updateUserDTO;
+      console.log(params);
       const result = await this.dao.run(sql, params);
       return result.id;
     } catch (err) {

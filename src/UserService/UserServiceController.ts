@@ -15,7 +15,7 @@ userRoutes.post('/auth', passport.authenticate('jwt'), async (req, res) => {
   res.send(true);
 });
 
-// Route to login, if successds sends the user a JWT token
+// Route to login, if succeeds sends the user a JWT token
 userRoutes.post('/user/login', passport.authenticate('local'), async (req, res) => {
   const jwtToken = jwt.sign(req.user as Express.User, process.env.jwtSecret);
   res.status(200).send(jwtToken);
