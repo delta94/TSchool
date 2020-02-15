@@ -1,49 +1,25 @@
-import express from 'express';
+import { Request } from 'express';
 import UserService from './UserService';
 import { CreateUserValidator, CreateUserDTO, DeleteUserValidator, DeleteUserDTO } from './controller-validation-types';
-import { p as passport } from '../middleware/passport-local';
-import UserRepository from './UserRepository';
-import { SqlDAO } from '../Dao/SQLDao';
-import jwt from 'jsonwebtoken';
-import { isAdmin } from '../middleware/isAuthed'
 
-const userRoutes = express.Router();
-const userService = new UserService(new UserRepository(new SqlDAO()));
+export default class UserController {
+  private service: UserService;
 
-// Route to Auth. Client calls this on startup, if their token is valid, sets the req.user object
-userRoutes.post('/auth', passport.authenticate('jwt'), async (req, res) => {
-  res.send(true);
-});
+  constructor(service: UserService) {
+    this.service = service;
+  }
 
-// Route to login, if successds sends the user a JWT token
-userRoutes.post('/user/login', passport.authenticate('local'), async (req, res) => {
-  const jwtToken = jwt.sign(req.user as Express.User, process.env.jwtSecret);
-  res.status(200).send(jwtToken);
-});
-
-// Route to Create a user
-userRoutes.post('/user', async (req, res) => {
-  console.log('creating user');
-  try {
+  public async createUser(req: Request) {
     await CreateUserValidator.validateAsync(req.body);
     const createUserDTO: CreateUserDTO = req.body;
-    const userId = await userService.createUser(createUserDTO);
-    res.status(200).send(userId.toString());
-  } catch (err) {
-    res.status(400).send(err.toString());
+    const userId = await this.service.createUser(createUserDTO);
+    return userId;
   }
-});
 
-// Route to Delete a User
-userRoutes.delete('/user', isAdmin, async (req, res) => {
-  try {
+  public async deleteUser(req: Request) {
     await DeleteUserValidator.validateAsync(req.body);
     const deleteUserDTO: DeleteUserDTO = req.body;
-    await userService.deleteUser(deleteUserDTO);
-    res.status(200).send(true);
-  } catch (err) {
-    res.status(400).send(err.toString());
+    const userId = await this.service.deleteUser(deleteUserDTO);
+    return userId;
   }
-});
-
-export default userRoutes;
+}

@@ -1,6 +1,6 @@
 import express from 'express';
 import dotenv from 'dotenv';
-import userRoutes from './UserService/UserServiceController';
+import userRoutes from './UserService/UserServiceRoutes';
 import bodyParser from 'body-parser';
 import passport from 'passport';
 import session from 'express-session';

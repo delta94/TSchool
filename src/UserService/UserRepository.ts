@@ -13,7 +13,20 @@ export default class UserRepository {
     const { schoolId, username, password, type, firstName, lastName, address, city, country, postal_code, dob } = createUserDTO;
     try {
       const sql = `INSERT INTO users (school_id, username, password, type, first_name, last_name, address, city, country, postal_code, date_of_birth, active) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
-      const params = [schoolId, username, bycrypt.hashSync(password), type, firstName, lastName, address, city, country, postal_code, dob, 1];
+      const params = [
+        schoolId,
+        username,
+        bycrypt.hashSync(password),
+        type,
+        firstName,
+        lastName,
+        address,
+        city,
+        country,
+        postal_code,
+        dob,
+        1,
+      ];
       const result = await this.dao.run(sql, params);
       return result.id;
     } catch (err) {
