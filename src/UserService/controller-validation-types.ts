@@ -1,10 +1,10 @@
 import Joi from '@hapi/joi';
 
-enum UserType {
-  'Admin',
-  'Faculty',
-  'Teacher',
-  'Student',
+export enum UserType {
+  'admin' = 'admin',
+  'faculty' = 'faculty',
+  'teacher' = 'teacher',
+  'student' = 'student',
 }
 
 export const CreateUserValidator = Joi.object({
