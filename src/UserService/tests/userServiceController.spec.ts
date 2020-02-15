@@ -17,6 +17,10 @@ describe('User Service Test', () => {
       return 5;
     });
 
+    after(() => {
+      service.kill();
+    });
+
     it('Can Create a user with a valid DTO', async () => {
       const res = await controller.createUser(mockValidCreateUserRequest as any);
       expect(res).to.equal(5);
