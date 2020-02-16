@@ -22,4 +22,13 @@ export default class UserController {
     const userId = await this.service.deleteUser(deleteUserDTO);
     return userId;
   }
+
+  public async logoutUser(req: Request) {
+    const jwtToken = req.headers.authorization?.split(' ')[1];
+    if (!jwtToken){
+      return false;
+    }
+    const userId = await this.service.logoutUser(jwtToken);
+    return userId;
+  }
 }

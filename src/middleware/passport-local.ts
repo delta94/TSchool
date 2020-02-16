@@ -1,8 +1,11 @@
 import passport from 'passport';
 import { Strategy as LocalStrategy } from 'passport-local';
-import { Strategy as JWTStrategy, ExtractJwt } from 'passport-jwt';
 import { SqlDAO } from '../Dao/SQLDao';
 import bycrypt from 'bcrypt-nodejs';
+import { UserType }  from '../UserService/controller-validation-types';
+import { Request } from 'express';
+import jwt from 'jsonwebtoken';
+import { Strategy as BearerStrategy } from 'passport-http-bearer';
 
 export const p = passport;
 const dao = new SqlDAO();
@@ -29,21 +32,29 @@ p.use(
   ),
 );
 
+const bearerExtractor = function(req: Request) {
+  const jwtToken = req.headers.authorization?.split(' ')[1];
+  return jwtToken as string;
+};
+
 const opts = {
-  jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+  jwtFromRequest: bearerExtractor,
   secretOrKey: process.env.jwtSecret,
 };
 
 p.use(
   'jwt',
-  new JWTStrategy(opts, async (jwt_payload: { id: number }, done) => {
+  new BearerStrategy(async (token: string, done) => {
+    const jwtPayload = jwt.decode(token) as JwtPayload;
     try {
-      const validUser = await dao.getOne<PassportUser>('select * from users where id = ?', [jwt_payload.id]);
+      const validUser = await dao.getOne<PassportUser>('SELECT * from users WHERE id = ?', [jwtPayload.id]);
       if (validUser) {
-        done(null, { id: validUser.id, username: validUser.username, type: validUser.type });
-      } else {
-        done('Invalid Username / Password');
+        const isBlacklistedToken = await dao.getOne<PassportUser>('SELECT * from invalidated_jwt_tokens where jwt_token = ?', [token]);
+        if (!isBlacklistedToken){
+          done(null, { id: validUser.id, username: validUser.username, type: validUser.type });
+        }
       }
+      done('Authentication failed');
     } catch (err) {
       done(JSON.stringify(err));
     }
@@ -63,4 +74,12 @@ export interface PassportUser {
   username: string;
   password: string;
   type: 'admin' | 'faculty' | 'student';
+}
+
+
+export interface JwtPayload {
+  id: number;
+  username: string;
+  type: UserType;
+  iat: number;
 }

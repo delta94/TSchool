@@ -36,7 +36,7 @@ export interface CreateUserDTO {
 }
 
 export const DeleteUserValidator = Joi.object({
-  id: Joi.number().required(),
+  id: Joi.number().required()
 });
 
 export interface DeleteUserDTO {

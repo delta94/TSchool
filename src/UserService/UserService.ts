@@ -18,6 +18,11 @@ export default class UserService {
     return studentId;
   }
 
+  public async logoutUser(jwtToken: string) {
+    const studentId = await this.repo.logoutUser(jwtToken);
+    return studentId;
+  }
+
   kill() {
     this.repo.kill();
   }

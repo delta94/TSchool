@@ -46,6 +46,17 @@ export default class UserRepository {
     }
   }
 
+  public async logoutUser(jwtToken: string) {
+    try {
+      const sql = `INSERT INTO invalidated_jwt_tokens (jwt_token) VALUES(?)`;
+      const params = [jwtToken];
+      const result = await this.dao.run(sql, params);
+      return result.id;
+    } catch (err) {
+      throw new Error(err);
+    }
+  }
+
   public kill(): void {
     this.dao.kill();
   }

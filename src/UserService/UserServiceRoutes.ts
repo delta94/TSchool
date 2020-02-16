@@ -45,4 +45,14 @@ userRoutes.delete('/user', isAdmin, async (req, res) => {
   }
 });
 
+// Route to Logout a User
+userRoutes.get('/user/logout', isAdmin, async (req, res) => {
+  try {
+    const userId = await userController.logoutUser(req);
+    res.status(200).send(userId.toString());
+  } catch (err) {
+    res.status(400).send(err.toString());
+  }
+});
+
 export default userRoutes;

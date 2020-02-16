@@ -5,3 +5,4 @@ node_modules
 /coverage
 /src/sample
 school.sqlite3
+npm-debug.log
