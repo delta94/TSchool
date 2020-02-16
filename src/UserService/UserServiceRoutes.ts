@@ -1,6 +1,6 @@
 import express from 'express';
 import { p as passport } from '../middleware/passport-local';
-import { isAdmin } from '../middleware/isAuthed';
+import { isSignedIn, isAdmin, isService, isFaculty, oneOf, allOf } from '../middleware/auth';
 import jwt from 'jsonwebtoken';
 import { SqlDAO } from '../Dao/SQLDao';
 import UserRepository from './UserRepository';
@@ -14,12 +14,12 @@ const userRepo = new UserRepository(sqlDao);
 const userService = new UserService(userRepo);
 const userController = new UserController(userService);
 
-// Route to Auth. Client calls this on startup, if their token is valid, sets the req.user object
+// Route to Autheticate and valid an existing JWT token
 userRoutes.post('/auth', passport.authenticate('jwt'), async (req, res) => {
   res.send(true);
 });
 
-// Route to login, if successds sends the user a JWT token
+// Route to login, issues a JWT token if user/pass match
 userRoutes.post('/user/login', passport.authenticate('local'), async (req, res) => {
   const jwtToken = jwt.sign(req.user as Express.User, process.env.jwtSecret);
   res.status(200).send(jwtToken);
@@ -53,6 +53,11 @@ userRoutes.get('/user/logout', isAdmin, async (req, res) => {
   } catch (err) {
     res.status(400).send(err.toString());
   }
+});
+
+// Route to get a user by ID
+userRoutes.get('/user', allOf(isAdmin, isService), async req => {
+  console.log('passed');
 });
 
 export default userRoutes;

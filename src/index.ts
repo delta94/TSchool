@@ -17,6 +17,7 @@ declare global {
       dbSqliteFile: string;
       jwtSecret: string;
       sessionSecret: string;
+      serviceSecret: string;
     }
   }
 }

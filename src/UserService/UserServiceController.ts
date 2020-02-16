@@ -25,7 +25,7 @@ export default class UserController {
 
   public async logoutUser(req: Request) {
     const jwtToken = req.headers.authorization?.split(' ')[1];
-    if (!jwtToken){
+    if (!jwtToken) {
       return false;
     }
     const userId = await this.service.logoutUser(jwtToken);

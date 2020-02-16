@@ -18,7 +18,9 @@ export const CreateUserValidator = Joi.object({
   country: Joi.string().required(),
   postal_code: Joi.string().required(),
   dob: Joi.date().required(),
-  type: Joi.string().valid('admin', 'faculty', 'teacher', 'student'),
+  type: Joi.string()
+    .valid('admin', 'faculty', 'teacher', 'student')
+    .required(),
 });
 
 export interface CreateUserDTO {
@@ -36,7 +38,7 @@ export interface CreateUserDTO {
 }
 
 export const DeleteUserValidator = Joi.object({
-  id: Joi.number().required()
+  id: Joi.number().required(),
 });
 
 export interface DeleteUserDTO {
