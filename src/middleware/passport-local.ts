@@ -2,10 +2,10 @@ import passport from 'passport';
 import { Strategy as LocalStrategy } from 'passport-local';
 import { SqlDAO } from '../Dao/SQLDao';
 import bycrypt from 'bcrypt-nodejs';
-import { UserType }  from '../UserService/controller-validation-types';
-import { Request } from 'express';
 import jwt from 'jsonwebtoken';
 import { Strategy as BearerStrategy } from 'passport-http-bearer';
+import { JwtPayload } from './passport-types';
+import { UserType } from '../UserService/utils/controller-validation-types';
 
 export const p = passport;
 const dao = new SqlDAO();
@@ -21,44 +21,44 @@ p.use(
       try {
         const validUser = await dao.getOne<PassportUser>('select * from users where username = ? AND active = 1', [username]);
         if (bycrypt.compareSync(password, validUser.password)) {
-          done(null, { id: validUser.id, username: validUser.username, type: validUser.type });
+          return done(null, setPassportUser(validUser));
         } else {
-          done('Invalid Username / Password');
+          return done('Invalid Username / Password');
         }
       } catch (err) {
-        done(JSON.stringify(err));
+        return done(JSON.stringify(err));
       }
     },
   ),
 );
 
-const bearerExtractor = function(req: Request) {
-  const jwtToken = req.headers.authorization?.split(' ')[1];
-  return jwtToken as string;
-};
-
-const opts = {
-  jwtFromRequest: bearerExtractor,
-  secretOrKey: process.env.jwtSecret,
-};
-
-p.use(
-  'jwt',
-  new BearerStrategy(async (token: string, done) => {
+p.use('jwt', new BearerStrategy(async (token: string, done) => {
     const jwtPayload = jwt.decode(token) as JwtPayload;
     try {
       const validUser = await dao.getOne<PassportUser>('SELECT * from users WHERE id = ?', [jwtPayload.id]);
       if (validUser) {
         const isBlacklistedToken = await dao.getOne<PassportUser>('SELECT * from invalidated_jwt_tokens where jwt_token = ?', [token]);
         if (!isBlacklistedToken){
-          done(null, { id: validUser.id, username: validUser.username, type: validUser.type });
+          return done(null, setPassportUser(validUser));
         }
       }
-      done('Authentication failed');
+      return done('Authentication failed');
     } catch (err) {
-      done(JSON.stringify(err));
+      return done(JSON.stringify(err));
     }
   }),
+);
+
+
+p.use('logout',  new BearerStrategy(async (token: string, done) => {
+  const jwtPayload = jwt.decode(token) as JwtPayload;
+    try {
+      await dao.getOne<PassportUser>(`INSERT INTO invalidated_jwt_tokens (jwt_token) VALUES(?)`, [jwtPayload.id]);
+      return done(null, {});
+    } catch (err) {
+      return done(JSON.stringify(err));
+    }
+  })
 );
 
 p.serializeUser((user, cb) => {
@@ -69,17 +69,20 @@ p.deserializeUser((user, cb) => {
   cb(null, user);
 });
 
+// keys should match table column labels
 export interface PassportUser {
   id: number;
   username: string;
   password: string;
-  type: 'admin' | 'faculty' | 'student';
+  school_id: string;
+  type: UserType;
 }
 
-
-export interface JwtPayload {
-  id: number;
-  username: string;
-  type: UserType;
-  iat: number;
+export const setPassportUser = (validUser: PassportUser) => {
+  return { 
+    id: validUser.id,
+    username: validUser.username,
+    schoolId: validUser.school_id,
+    type: validUser.type
+  }
 }

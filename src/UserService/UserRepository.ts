@@ -1,5 +1,5 @@
 import { AbstractDao } from '../Dao/AbstractDao';
-import { CreateUserDTO, DeleteUserDTO } from './controller-validation-types';
+import { CreateUserDTO, DeleteUserDTO, UserByNameDTO, UserRequest } from './utils/controller-validation-types';
 import bycrypt from 'bcrypt-nodejs';
 
 export default class UserRepository {
@@ -45,17 +45,20 @@ export default class UserRepository {
       throw new Error(err);
     }
   }
-
-  public async logoutUser(jwtToken: string) {
+  
+  public async userByName(userByNameDTO: UserByNameDTO) {
     try {
-      const sql = `INSERT INTO invalidated_jwt_tokens (jwt_token) VALUES(?)`;
-      const params = [jwtToken];
-      const result = await this.dao.run(sql, params);
-      return result.id;
+      const { firstName, lastName, schoolId } = userByNameDTO;
+      const sql = `SELECT username, first_name, last_name, type, active FROM users WHERE first_name = ?`;// AND last_name = ? AND school_id = ?`;
+      // username, first_name, last_name, type, active
+      const params = [firstName];//, lastName, schoolId];
+      const result = await this.dao.getAll<UserRequest>(sql, params);
+      return result[0];
     } catch (err) {
       throw new Error(err);
     }
   }
+  
 
   public kill(): void {
     this.dao.kill();

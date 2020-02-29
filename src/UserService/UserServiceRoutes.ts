@@ -25,6 +25,11 @@ userRoutes.post('/user/login', passport.authenticate('local'), async (req, res) 
   res.status(200).send(jwtToken);
 });
 
+// Route to Logout a User
+userRoutes.get('/user/logout', passport.authenticate('logout'), async (req, res) => {
+  res.send(true);
+});
+
 // Route to Create a user
 userRoutes.post('/user', async (req, res) => {
   try {
@@ -45,11 +50,11 @@ userRoutes.delete('/user', isAdmin, async (req, res) => {
   }
 });
 
-// Route to Logout a User
-userRoutes.get('/user/logout', isAdmin, async (req, res) => {
+// Route to get user by their first and last name
+userRoutes.get('/user/name' /* , to add when middleware merged in master: oneOf (isAdmin, isFaculty, isTeacher) */, async (req, res) => {
   try {
-    const userId = await userController.logoutUser(req);
-    res.status(200).send(userId.toString());
+    const user = await userController.getUserByName(req);
+    res.status(200).send(user);
   } catch (err) {
     res.status(400).send(err.toString());
   }

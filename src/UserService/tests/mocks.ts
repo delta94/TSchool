@@ -1,4 +1,4 @@
-import { UserType } from '../controller-validation-types';
+import { UserType } from '../utils/controller-validation-types';
 
 export const mockValidCreateUserRequest = {
   body: {

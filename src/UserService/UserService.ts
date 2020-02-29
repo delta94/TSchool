@@ -1,5 +1,5 @@
 import UserRepository from './UserRepository';
-import { CreateUserDTO, DeleteUserDTO } from './controller-validation-types';
+import { CreateUserDTO, DeleteUserDTO, UserByNameDTO } from './utils/controller-validation-types';
 
 export default class UserService {
   private repo: UserRepository;
@@ -18,9 +18,9 @@ export default class UserService {
     return studentId;
   }
 
-  public async logoutUser(jwtToken: string) {
-    const studentId = await this.repo.logoutUser(jwtToken);
-    return studentId;
+  public async userByName(userByNameDTO : any) {
+    const user = await this.repo.userByName(userByNameDTO);
+    return user;
   }
 
   kill() {

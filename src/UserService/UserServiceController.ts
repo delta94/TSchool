@@ -1,6 +1,7 @@
 import { Request } from 'express';
 import UserService from './UserService';
-import { CreateUserValidator, CreateUserDTO, DeleteUserValidator, DeleteUserDTO } from './controller-validation-types';
+import { CreateUserValidator, CreateUserDTO, DeleteUserValidator, DeleteUserDTO, UserByNameValidator, UserByNameDTO, UserSessionInfo } from './utils/controller-validation-types';
+
 
 export default class UserController {
   private service: UserService;
@@ -23,12 +24,14 @@ export default class UserController {
     return userId;
   }
 
-  public async logoutUser(req: Request) {
-    const jwtToken = req.headers.authorization?.split(' ')[1];
-    if (!jwtToken){
-      return false;
-    }
-    const userId = await this.service.logoutUser(jwtToken);
-    return userId;
+  public async getUserByName(req: Request) {
+    const { schoolId } = req.user as UserSessionInfo;
+    const requestBody = { ...req.body, schoolId };
+    await UserByNameValidator.validateAsync(requestBody);
+    const userByNameDTO: UserByNameDTO = requestBody;
+    
+    const user = await this.service.userByName(userByNameDTO);
+    return user;
   }
 }
+
